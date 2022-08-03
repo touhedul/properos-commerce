@@ -1,0 +1,75 @@
+@import '../scss/style.css';
+
+    .bg-blue {
+        background-color: #2196F3 !important;
+    }
+
+    .contact-ribbon {
+        width: 100%;
+        margin-left: 0px;
+        margin-right: 0px;
+        color: #fff !important;
+
+        /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#000000+0,000000+100&0.7+0,1+100 */
+        background: -moz-linear-gradient(top, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 1) 100%);
+        /* FF3.6-15 */
+        background: -webkit-linear-gradient(top, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 1) 100%);
+        /* Chrome10-25,Safari5.1-6 */
+        background: linear-gradient(to bottom, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 1) 100%);
+        /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#b3000000', endColorstr='#000000', GradientType=0);
+        /* IE6-9 */
+    }
+
+    #theme .tt-shp-info,
+    .tt-shp-info__strong {
+        color: #fff !important;
+
+    }
+
+    #theme .tt-shp-info p {
+        color: #fff !important;
+    }
+
+    #theme .tt-shp-info__design-02 [class^="icon-"] {
+        color: #fff !important;
+    }
+
+    .tt-shp-info__section {
+        padding: 0px !important;
+    }
+
+    @media only screen and (min-width: 1024px) {
+        #theme .ttg-grid-border>[class^="col-"]:not(:first-child) {
+            border-color: transparent;
+        }
+    }
+	
+	#theme .tt-header--style-01 .tt-header__logo {
+		background-color: #fff !important;
+	}
+	#theme .tt-header--style-01 .tt-header__logo, #theme .tt-header--style-01 .tt-logo__curtain::before, #theme .tt-header--style-06 .tt-header__logo, #theme .tt-header--style-06 .tt-logo__curtain::before {
+		background-color: #fff !important;
+		border-bottom:1px solid #eee;
+	}
+
+    @media only screen and (min-width: 768px) {
+        .on-mobile {
+			display: none !important;
+		}
+        .on-desktop {
+			desktop: block;
+		}
+    }
+    @media only screen and (max-width: 767px) {
+        .on-mobile {
+			display: block;
+		}
+        .on-desktop {
+			display: none !important;
+		}
+    } 
+	
+/* Text Color */
+
+

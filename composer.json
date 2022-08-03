@@ -1,0 +1,24 @@
+{
+    "name": "touhedul/properos-commerce",
+    "description": "Commerce package",
+    "authors": [
+        {
+            "name": "Properos LLC",
+            "email": "develop@properos.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {},
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Properos\\Commerce\\CommerceServiceProvider"
+            ]
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Properos\\Commerce\\": "src/"
+        }
+    }
+}

@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\Arr;
+
 Route::group([config('properos_commerce.router.default.options'), 'middleware' => 'web'], function(){
 
     $middleware = config('properos_commerce.router.default.middleware');
@@ -69,7 +71,7 @@ Route::group([config('properos_commerce.router.default.options'), 'middleware' =
     });
 
     //Api Items
-    Route::group(['prefix' => 'api/items', 'middleware' => array_get($middleware, 'api/items', array_get($middleware, 'private', []))], function () use($namespace) {
+    Route::group(['prefix' => 'api/items', 'middleware' => Arr::get($middleware, 'api/items', Arr::get($middleware, 'private', []))], function () use($namespace) {
         Route::get('index', $namespace.'\Item\ApiItemController@index');
         Route::get('create', $namespace.'\Item\ApiItemController@create');
         Route::post('store', $namespace.'\Item\ApiItemController@store');
@@ -83,7 +85,7 @@ Route::group([config('properos_commerce.router.default.options'), 'middleware' =
     });
 
     //Api Collection
-    Route::group(['prefix' => 'api/collections', 'middleware' => array_get($middleware, 'api/collection', array_get($middleware, 'private', []))], function () use($namespace) {
+    Route::group(['prefix' => 'api/collections', 'middleware' => Arr::get($middleware, 'api/collection', Arr::get($middleware, 'private', []))], function () use($namespace) {
         Route::post('search', $namespace.'\Collection\ApiCollectionController@search');
         Route::post('create', $namespace.'\Collection\ApiCollectionController@create');
         Route::post('update', $namespace.'\Collection\ApiCollectionController@update');
@@ -111,7 +113,7 @@ Route::group([config('properos_commerce.router.default.options'), 'middleware' =
 
 
     //Categories
-    Route::group(['prefix' => 'api/categories', 'middleware' => array_get($middleware, 'api/categories', array_get($middleware, 'private', []))], function () use($namespace) {
+    Route::group(['prefix' => 'api/categories', 'middleware' => Arr::get($middleware, 'api/categories', Arr::get($middleware, 'private', []))], function () use($namespace) {
         Route::get('index', $namespace.'\Category\ApiCategoryController@index');
         Route::get('create', $namespace.'\Category\ApiCategoryController@create');
         Route::post('store', $namespace.'\Category\ApiCategoryController@store');
@@ -122,7 +124,7 @@ Route::group([config('properos_commerce.router.default.options'), 'middleware' =
     });
 
     //Orders
-    Route::group(['prefix' => 'orders', 'middleware' => array_get($middleware, 'public', [])], function () use($namespace) {
+    Route::group(['prefix' => 'orders', 'middleware' => Arr::get($middleware, 'public', [])], function () use($namespace) {
         Route::get('order-confirmation/{id}/{status}', $namespace.'\Order\OrderController@getOrderConfirmation');
         Route::get('/invoice/{order_number}', $namespace.'\Order\OrderController@openInvoice');
         Route::get('/quote/{order_number}', $namespace.'\Order\OrderController@openQuote');
@@ -130,7 +132,7 @@ Route::group([config('properos_commerce.router.default.options'), 'middleware' =
     });
     Route::get('/invoice/{order_number}', $namespace.'\Order\OrderController@publicInvoice');
 
-    Route::group(['prefix' => 'orders', 'middleware' => array_get($middleware, 'orders', array_get($middleware, 'private', []))], function () use($namespace) {
+    Route::group(['prefix' => 'orders', 'middleware' => Arr::get($middleware, 'orders', Arr::get($middleware, 'private', []))], function () use($namespace) {
         Route::get('tracking/{carrier}/{number}', $namespace.'\Order\OrderController@trackingOrder');
     });
 

@@ -1,6 +1,7 @@
 {
     "name": "touhedul/properos-commerce",
     "description": "Commerce package",
+    "license": "MIT",
     "authors": [
         {
             "name": "Properos LLC",

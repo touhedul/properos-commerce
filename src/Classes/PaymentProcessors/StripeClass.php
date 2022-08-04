@@ -4,7 +4,7 @@ namespace Properos\Commerce\Classes\PaymentProcessors;
 use Properos\Base\Classes\Helper;
 use Properos\Base\Exceptions\ApiException;
 use Properos\Base\Classes\Api;
-
+use Illuminate\Support\Arr;
 class StripeClass
 {
     private $secret_key;
@@ -21,10 +21,10 @@ class StripeClass
 
     public function setCredentials($options)
     {
-        $this->secret_key = array_get($options, 'secret_key', env('STRIPE_SECRET_KEY', ''));
-        $this->public_key = array_get($options, 'public_key', env('STRIPE_PUBLIC_KEY', ''));
-        $this->statement_descriptor = trim(array_get($options, 'statement_descriptor', env('STRIPE_STATEMENT_DESCRIPTOR', env('APP_NAME', ''))));
-        $this->api_url = rtrim(array_get($options, 'api_url', env('STRIPE_API_URL', 'https://api.stripe.com/v1')), '/');
+        $this->secret_key = Arr::get($options, 'secret_key', env('STRIPE_SECRET_KEY', ''));
+        $this->public_key = Arr::get($options, 'public_key', env('STRIPE_PUBLIC_KEY', ''));
+        $this->statement_descriptor = trim(Arr::get($options, 'statement_descriptor', env('STRIPE_STATEMENT_DESCRIPTOR', env('APP_NAME', ''))));
+        $this->api_url = rtrim(Arr::get($options, 'api_url', env('STRIPE_API_URL', 'https://api.stripe.com/v1')), '/');
 
         if (!($this->secret_key != '' && $this->public_key != '' && $this->api_url != '')) {
             throw new ApiException(['Stripe is not configured'], '006');

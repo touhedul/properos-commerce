@@ -14,7 +14,7 @@ use PhpParser\Node\Stmt\Class_;
 use Properos\Base\Exceptions\ApiException;
 use function GuzzleHttp\json_encode;
 use Properos\Commerce\Classes\Integrations\Shipping\Common\IShippingUPS;
-
+use Illuminate\Support\Arr;
 /**
  * Description of ShippingUPS
  *
@@ -316,14 +316,14 @@ class ShippingUPS implements IShippingUPS
         // throw new ApiException('', '006',$request_data);
         $result = json_decode(ApiCall::call($this->shippingUrl, $request_data, 'post', ['Content-Type: application/json']), true);
         if (isset($result['ShipmentResponse']) && isset($result['ShipmentResponse']['Response']['ResponseStatus']['Code']) && $result['ShipmentResponse']['Response']['ResponseStatus']['Code'] > 0) {
-            $_result['total_charges'] = array_get($result, 'ShipmentResponse.ShipmentResults.ShipmentCharges.TotalCharges.MonetaryValue', 0);
-            $_result['tracking_number'] = array_get($result, 'ShipmentResponse.ShipmentResults.ShipmentIdentificationNumber', '');
+            $_result['total_charges'] = Arr::get($result, 'ShipmentResponse.ShipmentResults.ShipmentCharges.TotalCharges.MonetaryValue', 0);
+            $_result['tracking_number'] = Arr::get($result, 'ShipmentResponse.ShipmentResults.ShipmentIdentificationNumber', '');
             $_result['label'] = [
-                'image' => array_get($result, 'ShipmentResponse.ShipmentResults.PackageResults.ShippingLabel.GraphicImage', ''),
-                'html' => array_get($result, 'ShipmentResponse.ShipmentResults.PackageResults.ShippingLabel.HTMLImage', ''),
+                'image' => Arr::get($result, 'ShipmentResponse.ShipmentResults.PackageResults.ShippingLabel.GraphicImage', ''),
+                'html' => Arr::get($result, 'ShipmentResponse.ShipmentResults.PackageResults.ShippingLabel.HTMLImage', ''),
             ];
         } else if (isset($result['Fault'])) {
-            throw new ApiException(array_get($result, 'Fault.detail.Errors.ErrorDetail', 'Error'), '006', $result);
+            throw new ApiException(Arr::get($result, 'Fault.detail.Errors.ErrorDetail', 'Error'), '006', $result);
         } else {
             throw new ApiException(json_encode($result['VoidShipmentResponse']), '006', $result);
         }
@@ -383,17 +383,17 @@ class ShippingUPS implements IShippingUPS
                                     'CountryCode' => $data['shipper_country']
                                 ],
                                 'Phone' => [
-                                    'Number' => array_get($data, 'shipper_phone_number', '0000000000'),
+                                    'Number' => Arr::get($data, 'shipper_phone_number', '0000000000'),
                                 ]
                             ],
                             'Description' => [
                                 'Description' => "International shipment"
                             ],
                             'ShipTo' => [
-                                'Name' => array_get($data, 'customer_name', 'Unknown'),
-                                'AttentionName' => array_get($data, 'customer_name', 'Unknown'),
+                                'Name' => Arr::get($data, 'customer_name', 'Unknown'),
+                                'AttentionName' => Arr::get($data, 'customer_name', 'Unknown'),
                                 'Phone' => [
-                                    'Number' => array_get($data, 'customer_phone', '0000000000'),
+                                    'Number' => Arr::get($data, 'customer_phone', '0000000000'),
                                 ],
                                 'Address' => [
                                     'AddressLine' => $data['customer_address'],
@@ -469,13 +469,13 @@ class ShippingUPS implements IShippingUPS
         $_result = [];
         $result = json_decode(ApiCall::call($this->labelUrl, $request_data, 'POST', ['Content-Type: application/json']), true);
         if (isset($result['LabelRecoveryResponse']) && isset($result['LabelRecoveryResponse']['Response']['ResponseStatus']['Code']) && $result['LabelRecoveryResponse']['Response']['ResponseStatus']['Code'] > 0) {
-            $_result['tracking_number'] = array_get($result, 'LabelRecoveryResponse.LabelResults.TrackingNumber', '');
+            $_result['tracking_number'] = Arr::get($result, 'LabelRecoveryResponse.LabelResults.TrackingNumber', '');
             $_result['label'] = [
-                'image' => array_get($result, 'LabelRecoveryResponse.LabelResults.LabelImage.GraphicImage', ''),
-                'html' => array_get($result, 'LabelRecoveryResponse.LabelResults.LabelImage.HTMLImage', '')
+                'image' => Arr::get($result, 'LabelRecoveryResponse.LabelResults.LabelImage.GraphicImage', ''),
+                'html' => Arr::get($result, 'LabelRecoveryResponse.LabelResults.LabelImage.HTMLImage', '')
             ];
         } elseif (isset($result['Fault'])) {
-            throw new ApiException(array_get($result, 'Fault.detail.Errors.ErrorDetail', 'Error'), '006', $result);
+            throw new ApiException(Arr::get($result, 'Fault.detail.Errors.ErrorDetail', 'Error'), '006', $result);
         } else {
             throw new ApiException(json_encode($result['VoidShipmentResponse']), '006', $result);
         }
@@ -530,11 +530,11 @@ class ShippingUPS implements IShippingUPS
         $result = json_decode(ApiCall::call($this->baseUrl . 'Void', $request_data, 'POST', ['Content-Type: application/json']), true);
         if (isset($result['VoidShipmentResponse']) && isset($result['VoidShipmentResponse']['Response']['ResponseStatus']['Code']) && $result['VoidShipmentResponse']['Response']['ResponseStatus']['Code'] > 0) {
             $_result['status'] = 1;
-            $_result['status'] = array_get($result, 'VoidShipmentResponse.SummaryResult.Status.Code', 0);
-            $_result['message'] = array_get($result, 'VoidShipmentResponse.SummaryResult.Status.Description', '');
+            $_result['status'] = Arr::get($result, 'VoidShipmentResponse.SummaryResult.Status.Code', 0);
+            $_result['message'] = Arr::get($result, 'VoidShipmentResponse.SummaryResult.Status.Description', '');
 
         } elseif (isset($result['Fault'])) {
-            throw new ApiException(array_get($result, 'Fault.detail.Errors.ErrorDetail', 'Error'), '006', $result);
+            throw new ApiException(Arr::get($result, 'Fault.detail.Errors.ErrorDetail', 'Error'), '006', $result);
         } else {
             throw new ApiException(json_encode($result['VoidShipmentResponse']), '006', $result);
         }
